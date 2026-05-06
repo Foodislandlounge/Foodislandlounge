@@ -32,6 +32,7 @@ export default function Gallery() {
               <img 
                 src={img} 
                 alt={`Food Island Lounge ${idx + 1}`} 
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-earth-ink/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

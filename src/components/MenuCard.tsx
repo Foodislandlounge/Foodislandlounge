@@ -22,7 +22,8 @@ export default function MenuCard({ item, onAddToCart }: MenuCardProps) {
           <img 
             src={item.imageUrl} 
             alt={item.name} 
-            className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+            loading="lazy"
+            className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="w-full h-full bg-earth-bg flex items-center justify-center text-earth-ink/30 font-serif lowercase italic">

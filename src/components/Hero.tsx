@@ -25,11 +25,11 @@ export default function Hero() {
           <span className="text-earth-clay font-sans uppercase tracking-[0.5em] text-[10px] md:text-xs font-black mb-8 block drop-shadow-sm">
             Elegance in Every Flavor
           </span>
-          <h1 className="text-5xl md:text-8xl lg:text-9xl font-serif text-earth-clay tracking-tighter leading-[0.85] mb-8 drop-shadow-2xl">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-serif text-earth-clay tracking-tighter leading-[0.85] mb-8 drop-shadow-2xl">
             Food Island <br />
             <span className="italic font-light">Lounge</span>
           </h1>
-          <p className="text-white/80 text-sm md:text-lg max-w-xl mx-auto mb-12 font-light leading-relaxed tracking-wide drop-shadow-md">
+          <p className="text-white/80 text-xs sm:text-sm md:text-lg max-w-xl mx-auto mb-12 font-light leading-relaxed tracking-wide drop-shadow-md px-4">
             A sanctuary of taste in the heart of the city. Experience the perfect harmony of refined tradition and modern culinary art.
           </p>
 

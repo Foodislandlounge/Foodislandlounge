@@ -156,6 +156,7 @@ export default function Menu({ onAddToCart, onOpenCart }: MenuProps) {
                       <img 
                         src={cat.image} 
                         alt={cat.title}
+                        loading="lazy"
                         className="w-full h-auto border border-earth-clay/10 shadow-xl transition-transform duration-1000 group-hover:scale-[1.03]"
                       />
                       <div className="absolute inset-0 bg-earth-ink/0 group-hover:bg-earth-ink/5 transition-colors duration-500 flex items-center justify-center">
@@ -167,7 +168,7 @@ export default function Menu({ onAddToCart, onOpenCart }: MenuProps) {
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12">
                   {items.filter(item => item.category === cat.id).map((item) => (
                     <MenuCard 
                       key={item.id} 
