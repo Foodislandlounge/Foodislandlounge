@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
-import { auth, googleProvider } from '../../lib/firebase';
-import { X, LogIn, Plus, Trash2, Edit, ChevronLeft, LayoutGrid, ClipboardList, Calendar, ShoppingBag } from 'lucide-react';
+import { X, LogIn, Plus, Trash2, Edit, ChevronLeft, LayoutGrid, ClipboardList, Calendar, ShoppingBag, Key } from 'lucide-react';
 import MenuManager from './MenuManager';
 import ReservationManager from './ReservationManager';
 import OrderManager from './OrderManager';
@@ -12,28 +10,38 @@ interface AdminPanelProps {
   onClose: () => void;
 }
 
+const ADMIN_PASSCODE = "654493005";
+
 export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passcode, setPasscode] = useState("");
+  const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState<'menu' | 'reservations' | 'orders'>('menu');
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setLoading(false);
-    });
-    return () => unsubscribe();
+    // Check if previously authenticated in this session
+    const authStatus = sessionStorage.getItem('fil-admin-auth');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
   }, []);
 
-  const handleLogin = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error("Login failed:", error);
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passcode === ADMIN_PASSCODE) {
+      setIsAuthenticated(true);
+      setError("");
+      sessionStorage.setItem('fil-admin-auth', 'true');
+    } else {
+      setError("Incorrect passcode. Access denied.");
+      setPasscode("");
     }
   };
 
-  const handleLogout = () => signOut(auth);
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.removeItem('fil-admin-auth');
+  };
 
   if (!isOpen) return null;
 
@@ -63,9 +71,9 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
             </h2>
           </div>
           
-          {user && (
+          {isAuthenticated && (
             <div className="flex items-center gap-4">
-              <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold hidden sm:block">{user.email}</span>
+              <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold hidden sm:block">Admin Access</span>
               <button 
                 onClick={handleLogout}
                 className="text-[10px] uppercase tracking-widest text-amber-500 hover:text-amber-400 font-bold"
@@ -76,21 +84,33 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
           )}
         </div>
 
-        {!user ? (
-          <div className="flex-1 flex flex-col items-center justify-center p-12 text-center space-y-6">
-            <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center text-amber-500">
-              <LogIn size={40} />
+        {!isAuthenticated ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
+            <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center text-amber-500 mb-6">
+              <Key size={40} />
             </div>
-            <div className="max-w-xs">
+            <div className="max-w-xs mb-8">
               <h3 className="text-2xl font-serif text-white mb-2">Management Restricted</h3>
-              <p className="text-zinc-500 text-sm font-light">Please authenticate with your staff account to manage the Food Island Lounge system.</p>
+              <p className="text-zinc-500 text-sm font-light">Please enter the administrative passcode to access the management panel.</p>
             </div>
-            <button
-              onClick={handleLogin}
-              className="bg-white text-black px-8 py-4 rounded-none font-bold uppercase tracking-widest text-xs transition-all hover:bg-amber-400"
-            >
-              Sign in with Google
-            </button>
+            
+            <form onSubmit={handleLogin} className="w-full max-w-xs space-y-4">
+              <input
+                type="password"
+                value={passcode}
+                onChange={(e) => setPasscode(e.target.value)}
+                placeholder="Enter Access Code"
+                className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-center tracking-[0.5em] focus:outline-none focus:border-amber-500/50"
+                autoFocus
+              />
+              {error && <p className="text-red-500 text-xs uppercase tracking-widest font-bold">{error}</p>}
+              <button
+                type="submit"
+                className="w-full bg-white text-black py-4 rounded-none font-bold uppercase tracking-widest text-xs transition-all hover:bg-amber-400"
+              >
+                Authenticate
+              </button>
+            </form>
           </div>
         ) : (
           <div className="flex-1 flex overflow-hidden">
