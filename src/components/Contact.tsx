@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Check, Loader2, Send, MapPin } from 'lucide-react';
-import MapComponent from './MapComponent';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -77,8 +76,6 @@ export default function Contact() {
                 <p className="text-gray-500 text-sm font-light">Inform us of any allergies or preferences in the message section below.</p>
               </div>
             </div>
-
-            <MapComponent />
           </motion.div>
 
           <motion.div
