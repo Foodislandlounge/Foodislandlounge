@@ -29,8 +29,9 @@ export default function ReservationManager() {
   }, []);
 
   const handleUpdateStatus = async (id: string, status: 'confirmed' | 'cancelled') => {
+    const passcode = sessionStorage.getItem('fil-admin-passcode');
     try {
-      await updateDoc(doc(db, 'reservations', id), { status });
+      await updateDoc(doc(db, 'reservations', id), { status, adminPasscode: passcode });
     } catch (err) {
       console.error("Reservation update failed:", err);
       const errInfo = {

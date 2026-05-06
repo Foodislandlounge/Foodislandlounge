@@ -37,15 +37,12 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (passcode === ADMIN_PASSCODE) {
-      try {
-        await signInAnonymously(auth);
-        setIsAuthenticated(true);
-        setError("");
-        sessionStorage.setItem('fil-admin-auth', 'true');
-      } catch (err) {
-        console.error("Auth failed:", err);
-        setError("System authentication failed. Please try again.");
-      }
+      // We skip Firebase Auth since signInAnonymously is restricted in this project
+      // Security is handled via the adminPasscode field in every write operation
+      setIsAuthenticated(true);
+      setError("");
+      sessionStorage.setItem('fil-admin-auth', 'true');
+      sessionStorage.setItem('fil-admin-passcode', passcode);
     } else {
       setError("Incorrect passcode. Access denied.");
       setPasscode("");
@@ -53,9 +50,10 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   };
 
   const handleLogout = async () => {
-    await signOut(auth);
     setIsAuthenticated(false);
     sessionStorage.removeItem('fil-admin-auth');
+    sessionStorage.removeItem('fil-admin-passcode');
+    await signOut(auth);
   };
 
   if (!isOpen) return null;

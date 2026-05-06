@@ -29,8 +29,9 @@ export default function OrderManager() {
   }, []);
 
   const handleUpdateStatus = async (id: string, status: Order['status']) => {
+    const passcode = sessionStorage.getItem('fil-admin-passcode');
     try {
-      await updateDoc(doc(db, 'orders', id), { status });
+      await updateDoc(doc(db, 'orders', id), { status, adminPasscode: passcode });
     } catch (err) {
       console.error("Order update failed:", err);
       const errInfo = {

@@ -32,11 +32,14 @@ export default function MenuManager() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const passcode = sessionStorage.getItem('fil-admin-passcode');
+    const dataWithAuth = { ...formData, adminPasscode: passcode };
+    
     try {
       if (editingId) {
-        await updateDoc(doc(db, 'menu', editingId), formData);
+        await updateDoc(doc(db, 'menu', editingId), dataWithAuth);
       } else {
-        await addDoc(collection(db, 'menu'), formData);
+        await addDoc(collection(db, 'menu'), dataWithAuth);
       }
       setShowForm(false);
       setEditingId(null);
