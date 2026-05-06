@@ -20,10 +20,65 @@ export default function Menu({ onAddToCart, onOpenCart }: MenuProps) {
     const q = query(collection(db, 'menu'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const menuData: MenuItem[] = [];
+      
+      // Static food items defined manually
+      const staticFood: MenuItem[] = [
+        {
+          id: 'food-1',
+          name: 'Achu',
+          price: 2500,
+          category: 'Food',
+          imageUrl: 'https://i.ibb.co/1GKY2LJw/f2b27320-f3f2-4154-a20f-2597a2c46a16.jpg',
+          description: 'A traditional delicacy from the North West region of Cameroon.',
+          isAvailable: true
+        },
+        {
+          id: 'food-2',
+          name: 'Fufu and eru',
+          price: 2000,
+          category: 'Food',
+          imageUrl: 'https://i.ibb.co/vC319yTd/IMG-1374.jpg',
+          description: 'Finely sliced Gnetum Africanum cooked with palm oil and crayfish, served with water fufu.',
+          isAvailable: true
+        },
+        {
+          id: 'food-3',
+          name: 'Ndole',
+          price: 2500,
+          category: 'Food',
+          imageUrl: 'https://i.ibb.co/mVYLzz0Z/59daa160-745d-4ce5-bdc0-30d09950dac8.jpg',
+          description: 'A rich and creamy bitterleaf stew prepared with peanuts and meat or shrimp.',
+          isAvailable: true
+        },
+        {
+          id: 'food-4',
+          name: 'Fries/plantain and chicken',
+          price: 2500,
+          category: 'Food',
+          imageUrl: 'https://i.ibb.co/4gmFzFTS/e22d95bd-405f-41c6-81de-dd1755356192.jpg',
+          description: 'Savory grilled or fried chicken served with golden plantains or crispy fries.',
+          isAvailable: true
+        },
+        {
+          id: 'food-5',
+          name: 'Poulet DG',
+          price: 2500,
+          category: 'Food',
+          imageUrl: 'https://i.ibb.co/2fWV5L7/660e7b17-c644-46dd-acbc-0464c465fb4a.jpg',
+          description: 'A vibrant stir-fry of chicken, fried plantains, and fresh vegetables.',
+          isAvailable: true
+        }
+      ];
+
+      // Filter drinks from Firestore to keep the drinks section same
       snapshot.forEach((doc) => {
-        menuData.push({ id: doc.id, ...doc.data() } as MenuItem);
+        const item = { id: doc.id, ...doc.data() } as MenuItem;
+        if (item.category === 'Drinks') {
+          menuData.push(item);
+        }
       });
-      setItems(menuData);
+
+      setItems([...staticFood, ...menuData]);
       setLoading(false);
     }, (error) => {
       console.error("Error fetching menu:", error);
@@ -40,7 +95,7 @@ export default function Menu({ onAddToCart, onOpenCart }: MenuProps) {
       id: 'Food' as Category,
       title: 'Island Food',
       description: 'Our traditional family recipes passed down through generations.',
-      image: 'https://i.ibb.co/Z6FjN2ND/Full-Size-Render.jpg'
+      image: null // Removed image as requested
     },
     {
       id: 'Drinks' as Category,
@@ -90,24 +145,26 @@ export default function Menu({ onAddToCart, onOpenCart }: MenuProps) {
                     <div className="w-12 h-0.5 bg-earth-clay mx-auto"></div>
                   </div>
 
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    className="w-full max-w-5xl mx-auto relative group cursor-zoom-in overflow-hidden rounded-sm"
-                    onClick={() => setSelectedImage(cat.image)}
-                  >
-                    <img 
-                      src={cat.image} 
-                      alt={cat.title}
-                      className="w-full h-auto border border-earth-clay/10 shadow-xl transition-transform duration-1000 group-hover:scale-[1.03]"
-                    />
-                    <div className="absolute inset-0 bg-earth-ink/0 group-hover:bg-earth-ink/5 transition-colors duration-500 flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 bg-earth-bg/90 backdrop-blur-sm text-earth-clay px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase border border-earth-clay/20 transition-all transform translate-y-4 group-hover:translate-y-0 shadow-lg">
-                        View Full Menu
-                      </span>
-                    </div>
-                  </motion.div>
+                  {cat.image && (
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      className="w-full max-w-5xl mx-auto relative group cursor-zoom-in overflow-hidden rounded-sm"
+                      onClick={() => setSelectedImage(cat.image)}
+                    >
+                      <img 
+                        src={cat.image} 
+                        alt={cat.title}
+                        className="w-full h-auto border border-earth-clay/10 shadow-xl transition-transform duration-1000 group-hover:scale-[1.03]"
+                      />
+                      <div className="absolute inset-0 bg-earth-ink/0 group-hover:bg-earth-ink/5 transition-colors duration-500 flex items-center justify-center">
+                        <span className="opacity-0 group-hover:opacity-100 bg-earth-bg/90 backdrop-blur-sm text-earth-clay px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase border border-earth-clay/20 transition-all transform translate-y-4 group-hover:translate-y-0 shadow-lg">
+                          View Full Menu
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
