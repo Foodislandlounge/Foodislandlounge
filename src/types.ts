@@ -19,6 +19,7 @@ export interface Order {
   customerName: string;
   customerPhone: string;
   customerLocation: string;
+  specialInstructions?: string;
   items: CartItem[];
   total: number;
   status: 'pending' | 'preparing' | 'completed' | 'cancelled';

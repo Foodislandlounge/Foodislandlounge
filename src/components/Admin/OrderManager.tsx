@@ -63,12 +63,17 @@ export default function OrderManager() {
                   </div>
                   <div>
                     <h4 className="text-earth-ink font-bold text-lg">{order.customerName}</h4>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex flex-wrap gap-4 items-center mt-2">
                       <p className="text-[10px] text-earth-clay font-black uppercase tracking-widest">{order.customerPhone}</p>
                       {order.customerLocation && (
                         <div className="flex items-center gap-1.5 text-[10px] text-earth-ink/50 font-bold uppercase tracking-widest">
                           <MapPin size={10} className="text-earth-clay" />
                           {order.customerLocation}
+                        </div>
+                      )}
+                      {order.specialInstructions && (
+                        <div className="w-full mt-2 p-3 bg-white/50 border-l-2 border-earth-clay text-earth-ink/70 text-[11px] italic font-medium">
+                          Note: {order.specialInstructions}
                         </div>
                       )}
                     </div>
