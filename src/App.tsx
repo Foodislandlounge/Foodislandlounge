@@ -76,7 +76,7 @@ export default function App() {
         
         <main>
           <Hero />
-          <Menu onAddToCart={addToCart} />
+          <Menu onAddToCart={addToCart} onOpenCart={() => setIsCartOpen(true)} />
           <Gallery />
           <About />
           <Contact />

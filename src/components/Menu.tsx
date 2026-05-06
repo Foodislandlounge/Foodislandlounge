@@ -9,9 +9,10 @@ import { Loader2, X } from 'lucide-react';
 
 interface MenuProps {
   onAddToCart: (item: MenuItem) => void;
+  onOpenCart: () => void;
 }
 
-export default function Menu({ onAddToCart }: MenuProps) {
+export default function Menu({ onAddToCart, onOpenCart }: MenuProps) {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -122,6 +123,28 @@ export default function Menu({ onAddToCart }: MenuProps) {
             ))}
           </div>
         )}
+
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mt-20 flex flex-col items-center border-t border-earth-clay/10 pt-20"
+        >
+          <div className="max-w-xl text-center space-y-6 mb-10">
+            <h3 className="text-3xl font-serif text-earth-ink">Ready to Taste the Island?</h3>
+            <p className="text-earth-ink/60 font-light leading-relaxed">
+              Finalize your selection and let our chefs bring the magic of Food Island Lounge to your table.
+            </p>
+          </div>
+          <button 
+            onClick={onOpenCart}
+            className="group relative px-12 py-6 bg-earth-clay text-white rounded-sm font-black uppercase tracking-[0.3em] text-xs transition-all shadow-2xl hover:bg-earth-ink active:scale-[0.98] overflow-hidden"
+          >
+            <span className="relative z-10">Place Your Order</span>
+            <div className="absolute inset-0 bg-white/10 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+          </button>
+        </motion.div>
 
         {/* Full Image Modal */}
         <AnimatePresence>
