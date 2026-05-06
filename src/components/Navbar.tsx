@@ -74,8 +74,11 @@ export default function Navbar({ cartCount, onCartClick, onAdminClick }: NavbarP
               className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300" 
             />
           ) : (
-            <span className="text-xl md:text-2xl font-serif font-bold tracking-tighter text-earth-ink group-hover:text-earth-clay transition-colors">
-              FOOD ISLAND <span className="text-earth-clay font-sans italic tracking-normal">Lounge</span>
+            <span className={cn(
+              "text-xl md:text-2xl font-serif font-bold tracking-tighter transition-colors",
+              isScrolled ? "text-earth-ink" : "text-earth-clay"
+            )}>
+              FOOD ISLAND <span className="text-earth-clay font-sans italic tracking-normal underline decoration-earth-clay/30 decoration-1 underline-offset-4">Lounge</span>
             </span>
           )}
         </a>

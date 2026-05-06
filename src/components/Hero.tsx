@@ -4,31 +4,33 @@ import { IMAGES } from '../constants';
 
 export default function Hero() {
   return (
-    <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-earth-bg">
-      {/* Background with Professional Color/Gradient */}
-      <div className="absolute inset-0 z-0 opacity-40">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(188,74,60,0.1),transparent_70%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(250,247,242,0.8))]" />
-        
-        {/* Subtle texture/grain */}
-        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
+    <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-earth-ink">
+      {/* Background Image with Professional Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://i.ibb.co/PG0Dxv0q/Full-Size-Render.jpg" 
+          alt="Food Island Lounge Hero"
+          className="w-full h-full object-cover grayscale-[0.2] brightness-[0.4] scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-earth-ink/80 via-transparent to-earth-ink/90" />
+        <div className="absolute inset-0 bg-earth-ink/30" />
       </div>
 
       <div className="relative z-10 text-center px-6 max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="text-earth-clay font-sans uppercase tracking-[0.4em] text-[10px] md:text-sm font-bold mb-6 block">
-            Welcome to Food Island Lounge
+          <span className="text-earth-clay font-sans uppercase tracking-[0.5em] text-[10px] md:text-xs font-black mb-8 block drop-shadow-sm">
+            Elegance in Every Flavor
           </span>
-          <h1 className="text-5xl md:text-8xl lg:text-9xl font-serif text-earth-ink tracking-tight leading-[0.9] mb-8">
-            The Essence of <br />
-            <span className="italic text-earth-clay font-light font-cormorant">Island Living</span>
+          <h1 className="text-5xl md:text-8xl lg:text-9xl font-serif text-earth-clay tracking-tighter leading-[0.85] mb-8 drop-shadow-2xl">
+            Food Island <br />
+            <span className="italic font-light">Lounge</span>
           </h1>
-          <p className="text-earth-ink/70 text-base md:text-lg max-w-2xl mx-auto mb-12 font-light leading-relaxed">
-            Experience an authentic culinary journey through the heart of Yaounde. Where tradition meets refined taste in a vibrant nature-inspired setting.
+          <p className="text-white/80 text-sm md:text-lg max-w-xl mx-auto mb-12 font-light leading-relaxed tracking-wide drop-shadow-md">
+            A sanctuary of taste in the heart of the city. Experience the perfect harmony of refined tradition and modern culinary art.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
