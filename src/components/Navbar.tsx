@@ -62,7 +62,7 @@ export default function Navbar({ cartCount, onCartClick, onAdminClick }: NavbarP
     <nav
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4',
-        isScrolled ? 'bg-black/80 backdrop-blur-md shadow-lg border-b border-white/10' : 'bg-transparent'
+        isScrolled ? 'bg-earth-bg/90 backdrop-blur-md shadow-sm border-b border-earth-clay/10' : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -71,11 +71,11 @@ export default function Navbar({ cartCount, onCartClick, onAdminClick }: NavbarP
             <img 
               src={IMAGES.logo} 
               alt="Food Island Lounge" 
-              className="h-12 w-auto object-contain brightness-0 invert group-hover:scale-110 transition-transform duration-300" 
+              className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300" 
             />
           ) : (
-            <span className="text-2xl font-serif font-bold tracking-tighter text-white group-hover:text-amber-400 transition-colors">
-              FOOD ISLAND <span className="text-amber-500 font-sans italic tracking-normal">Lounge</span>
+            <span className="text-xl md:text-2xl font-serif font-bold tracking-tighter text-earth-ink group-hover:text-earth-clay transition-colors">
+              FOOD ISLAND <span className="text-earth-clay font-sans italic tracking-normal">Lounge</span>
             </span>
           )}
         </a>
@@ -88,41 +88,41 @@ export default function Navbar({ cartCount, onCartClick, onAdminClick }: NavbarP
               href={link.href}
               onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
               className={cn(
-                'text-sm uppercase tracking-widest font-medium transition-all hover:text-amber-400',
-                activeSection === link.href.substring(1) ? 'text-amber-500' : 'text-gray-300'
+                'text-[10px] uppercase tracking-[0.2em] font-bold transition-all hover:text-earth-clay',
+                activeSection === link.href.substring(1) ? 'text-earth-clay' : 'text-earth-ink/70'
               )}
             >
               {link.name}
               {activeSection === link.href.substring(1) && (
                 <motion.div
                   layoutId="activeNav"
-                  className="h-0.5 bg-amber-500 mt-1"
+                  className="h-0.5 bg-earth-clay mt-1"
                 />
               )}
             </a>
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <button
             onClick={onCartClick}
-            className="p-2 text-gray-300 hover:text-amber-400 transition-colors relative"
+            className="p-2 text-earth-ink/70 hover:text-earth-clay transition-colors relative"
           >
             <ShoppingCart size={20} />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-amber-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+              <span className="absolute -top-1 -right-1 bg-earth-clay text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
                 {cartCount}
               </span>
             )}
           </button>
           <button
             onClick={onAdminClick}
-            className="p-2 text-gray-300 hover:text-amber-400 transition-colors md:flex hidden"
+            className="p-2 text-earth-ink/70 hover:text-earth-clay transition-colors md:flex hidden"
           >
             <User size={20} />
           </button>
           <button
-            className="md:hidden p-2 text-gray-300"
+            className="md:hidden p-2 text-earth-ink/70"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -137,7 +137,7 @@ export default function Navbar({ cartCount, onCartClick, onAdminClick }: NavbarP
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-zinc-900 border-b border-white/10 p-6 md:hidden flex flex-col gap-6"
+            className="absolute top-full left-0 right-0 bg-earth-bg border-b border-earth-clay/10 p-6 md:hidden flex flex-col gap-6 shadow-xl"
           >
             {navLinks.map((link) => (
               <a
@@ -145,8 +145,8 @@ export default function Navbar({ cartCount, onCartClick, onAdminClick }: NavbarP
                 href={link.href}
                 onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
                 className={cn(
-                  'text-lg font-medium tracking-wide transition-colors',
-                  activeSection === link.href.substring(1) ? 'text-amber-500' : 'text-gray-300'
+                  'text-lg font-serif font-bold tracking-wide transition-colors',
+                  activeSection === link.href.substring(1) ? 'text-earth-clay' : 'text-earth-ink/80'
                 )}
               >
                 {link.name}
@@ -154,7 +154,7 @@ export default function Navbar({ cartCount, onCartClick, onAdminClick }: NavbarP
             ))}
             <button
               onClick={() => { onAdminClick(); setIsMobileMenuOpen(false); }}
-              className="text-lg font-medium text-gray-300 flex items-center gap-2"
+              className="text-lg font-serif font-bold text-earth-ink/80 flex items-center gap-2"
             >
               <User size={18} /> Staff Login
             </button>

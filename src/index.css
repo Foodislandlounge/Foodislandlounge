@@ -1,10 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-cormorant: "Cormorant Garamond", serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-earth-bg: #FAF7F2;
+  --color-earth-ink: #2A2420;
+  --color-earth-clay: #BC4A3C;
+  --color-earth-sage: #3D5A45;
+  --color-earth-ochre: #D9A05B;
+  --color-earth-cream: #F2EBE1;
 }
 
 @layer base {
@@ -13,18 +21,22 @@
   }
   
   body {
-    @apply bg-black text-white antialiased;
+    @apply bg-earth-bg text-earth-ink antialiased;
   }
 
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
   ::-webkit-scrollbar-track {
-    @apply bg-black;
+    @apply bg-earth-bg;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-zinc-800 rounded-full hover:bg-amber-500/50 transition-colors;
+    @apply bg-earth-clay/20 rounded-full hover:bg-earth-clay/40 transition-colors;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
   }
 }
 

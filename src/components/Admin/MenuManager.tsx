@@ -86,111 +86,120 @@ export default function MenuManager() {
     }
   };
 
-  if (loading) return <div className="flex justify-center p-12"><Loader2 className="animate-spin text-zinc-600" /></div>;
+  if (loading) return <div className="flex justify-center p-12"><Loader2 className="animate-spin text-earth-clay" /></div>;
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <h3 className="text-2xl font-serif text-white tracking-wide">Menu Inventory</h3>
+    <div className="space-y-10">
+      <div className="flex justify-between items-end border-b border-earth-clay/10 pb-8">
+        <div>
+          <h3 className="text-3xl font-serif text-earth-ink tracking-tight uppercase">Menu Inventory</h3>
+          <p className="text-earth-ink/40 text-[10px] uppercase tracking-widest mt-2 font-black">Manage your culinary offerings</p>
+        </div>
         <button
           onClick={() => { setShowForm(true); setEditingId(null); }}
-          className="bg-amber-600 hover:bg-amber-500 text-white px-6 py-2 uppercase tracking-widest text-[10px] font-bold flex items-center gap-2"
+          className="bg-earth-clay hover:bg-earth-clay/90 text-white px-8 py-4 uppercase tracking-[0.2em] text-[10px] font-black flex items-center gap-3 shadow-lg shadow-earth-clay/20 transition-all active:scale-[0.98] rounded-sm"
         >
-          <Plus size={16} /> New Product
+          <Plus size={18} /> New Creation
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-zinc-900 border border-white/5 p-8 space-y-6">
-          <h4 className="text-white font-serif text-lg">{editingId ? 'Refine Item' : 'New Creation'}</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Item Name</label>
+        <form onSubmit={handleSubmit} className="bg-earth-cream border border-earth-clay/5 p-10 space-y-8 rounded-sm shadow-xl">
+          <h4 className="text-earth-ink font-serif text-2xl">{editingId ? 'Refine Delight' : 'Born from the Island'}</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-3">
+              <label className="text-[9px] uppercase tracking-[0.2em] text-earth-ink/40 font-black">Item Name</label>
               <input 
                 required
-                className="w-full bg-black border border-zinc-800 p-3 text-white text-sm focus:border-amber-500/50 outline-none"
+                className="w-full bg-white border border-earth-clay/10 p-4 text-earth-ink text-sm focus:border-earth-clay outline-none rounded-sm transition-all shadow-sm"
                 value={formData.name}
                 onChange={e => setFormData({...formData, name: e.target.value})}
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Price (FCFA)</label>
+            <div className="space-y-3">
+              <label className="text-[9px] uppercase tracking-[0.2em] text-earth-ink/40 font-black">Price (FCFA)</label>
               <input 
                 type="number"
                 required
-                className="w-full bg-black border border-zinc-800 p-3 text-white text-sm focus:border-amber-500/50 outline-none"
+                className="w-full bg-white border border-earth-clay/10 p-4 text-earth-ink text-sm focus:border-earth-clay outline-none rounded-sm transition-all shadow-sm"
                 value={formData.price}
                 onChange={e => setFormData({...formData, price: parseInt(e.target.value)})}
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Category</label>
+            <div className="space-y-3">
+              <label className="text-[9px] uppercase tracking-[0.2em] text-earth-ink/40 font-black">Category</label>
               <select 
-                className="w-full bg-black border border-zinc-800 p-3 text-white text-sm focus:border-amber-500/50 outline-none"
+                className="w-full bg-white border border-earth-clay/10 p-4 text-earth-ink text-sm focus:border-earth-clay outline-none rounded-sm transition-all shadow-sm appearance-none cursor-pointer"
                 value={formData.category}
                 onChange={e => setFormData({...formData, category: e.target.value as Category})}
               >
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Image URL</label>
+            <div className="space-y-3">
+              <label className="text-[9px] uppercase tracking-[0.2em] text-earth-ink/40 font-black">Image Link</label>
               <input 
-                className="w-full bg-black border border-zinc-800 p-3 text-white text-sm focus:border-amber-500/50 outline-none"
+                className="w-full bg-white border border-earth-clay/10 p-4 text-earth-ink text-sm focus:border-earth-clay outline-none rounded-sm transition-all shadow-sm"
                 value={formData.imageUrl}
                 onChange={e => setFormData({...formData, imageUrl: e.target.value})}
-                placeholder="https://..."
+                placeholder="https://images.unsplash..."
               />
             </div>
           </div>
-          <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Description</label>
+          <div className="space-y-3">
+            <label className="text-[9px] uppercase tracking-[0.2em] text-earth-ink/40 font-black">Gastronomic Description</label>
             <textarea 
               rows={3}
-              className="w-full bg-black border border-zinc-800 p-3 text-white text-sm focus:border-amber-500/50 outline-none resize-none"
+              className="w-full bg-white border border-earth-clay/10 p-4 text-earth-ink text-sm focus:border-earth-clay outline-none resize-none rounded-sm transition-all shadow-sm"
               value={formData.description}
               onChange={e => setFormData({...formData, description: e.target.value})}
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 group">
             <input 
               type="checkbox" 
               id="isAvailable"
               checked={formData.isAvailable}
               onChange={e => setFormData({...formData, isAvailable: e.target.checked})}
-              className="accent-amber-600"
+              className="w-5 h-5 rounded-sm accent-earth-clay cursor-pointer transition-all"
             />
-            <label htmlFor="isAvailable" className="text-zinc-400 text-xs">Currently Available to Order</label>
+            <label htmlFor="isAvailable" className="text-earth-ink/60 text-xs font-bold uppercase tracking-widest cursor-pointer group-hover:text-earth-clay transition-colors">Currently Available for Guests</label>
           </div>
-          <div className="flex gap-4 pt-4">
-            <button type="submit" className="flex-1 bg-amber-600 hover:bg-amber-500 text-white py-3 uppercase tracking-widest text-[10px] font-bold">
-              {editingId ? 'Save Changes' : 'Add to Menu'}
+          <div className="flex gap-6 pt-6 border-t border-earth-clay/10">
+            <button type="submit" className="flex-1 bg-earth-ink text-white py-5 uppercase tracking-[0.2em] text-[10px] font-black rounded-sm shadow-xl hover:bg-earth-ink/90 transition-all active:scale-[0.98]">
+              {editingId ? 'Seal Changes' : 'Welcome to the Menu'}
             </button>
-            <button type="button" onClick={() => setShowForm(false)} className="px-8 border border-zinc-700 text-zinc-500 hover:text-white uppercase tracking-widest text-[10px] font-bold">
-              Cancel
+            <button type="button" onClick={() => setShowForm(false)} className="px-12 border border-earth-clay/20 text-earth-ink/40 hover:text-earth-ink hover:bg-earth-clay/5 uppercase tracking-[0.2em] text-[10px] font-black transition-all rounded-sm">
+              Dismiss
             </button>
           </div>
         </form>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {items.map(item => (
-          <div key={item.id} className="bg-zinc-900 border border-white/5 p-4 flex gap-4">
-            <div className="w-16 h-16 bg-black border border-white/5 overflow-hidden shrink-0">
-              {item.imageUrl ? <img src={item.imageUrl} className="w-full h-full object-cover grayscale" /> : <ImageIcon className="w-full h-full p-4 text-zinc-700" />}
+          <div key={item.id} className="bg-white border border-earth-clay/5 p-5 flex gap-6 rounded-sm shadow-sm hover:shadow-md transition-all group">
+            <div className="w-24 h-24 bg-earth-bg border border-earth-clay/5 overflow-hidden shrink-0 rounded-sm shadow-inner group-hover:shadow-none transition-all">
+              {item.imageUrl ? <img src={item.imageUrl} className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700" /> : <ImageIcon className="w-full h-full p-6 text-earth-ink/10" />}
             </div>
-            <div className="flex-1 min-w-0">
-              <h5 className="text-white font-medium text-sm truncate">{item.name}</h5>
-              <p className="text-zinc-500 text-[10px] uppercase tracking-wider">{item.category} • {item.price.toLocaleString()} FCFA</p>
-              <div className="flex gap-3 mt-3">
-                <button onClick={() => handleEdit(item)} className="text-amber-500 hover:text-amber-400 transition-colors">
-                  <Edit2 size={14} />
-                </button>
-                <button onClick={() => handleDelete(item.id!)} className="text-zinc-600 hover:text-red-400 transition-colors">
-                  <Trash2 size={14} />
-                </button>
-                <div className={`ml-auto text-[8px] uppercase tracking-widest font-bold px-2 py-0.5 border ${item.isAvailable ? 'border-green-500/20 text-green-500' : 'border-red-500/20 text-red-500'}`}>
-                  {item.isAvailable ? 'In Stock' : 'Out'}
+            <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
+              <div>
+                <h5 className="text-earth-ink font-bold text-base truncate leading-tight">{item.name}</h5>
+                <p className="text-earth-clay text-[10px] uppercase tracking-[0.2em] font-black mt-1">
+                  {item.category} • {item.price.toLocaleString()} <span className="opacity-50">FCFA</span>
+                </p>
+              </div>
+              <div className="flex justify-between items-center mt-4">
+                <div className="flex gap-4">
+                  <button onClick={() => handleEdit(item)} className="text-earth-ink/20 hover:text-earth-clay transition-colors p-1" title="Edit">
+                    <Edit2 size={18} />
+                  </button>
+                  <button onClick={() => handleDelete(item.id!)} className="text-earth-ink/20 hover:text-red-500 transition-colors p-1" title="Remove">
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+                <div className={`text-[8px] uppercase tracking-[0.2em] font-black px-3 py-1 border rounded-full ${item.isAvailable ? 'border-green-500/20 text-green-600 bg-green-500/5' : 'border-red-500/20 text-red-600 bg-red-500/5'}`}>
+                  {item.isAvailable ? 'Serving' : 'Resting'}
                 </div>
               </div>
             </div>

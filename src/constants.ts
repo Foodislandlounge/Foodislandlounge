@@ -2,7 +2,6 @@ export const RESTAURANT_INFO = {
   name: "Food Island Lounge",
   location: "Opposite Neptune Tamtam, Yaounde, Cameroon",
   phone: "+237 670 320 713",
-  email: "info@foodislandlounge.com",
   hours: "Mon - Sun: 10:00 AM - 11:00 PM"
 };
 

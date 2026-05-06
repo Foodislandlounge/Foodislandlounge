@@ -67,7 +67,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-black text-white selection:bg-amber-500/30 selection:text-amber-500">
+      <div className="min-h-screen bg-earth-bg text-earth-ink selection:bg-earth-clay/20 selection:text-earth-clay">
         <Navbar 
           cartCount={cartItems.reduce((acc, i) => acc + i.quantity, 0)} 
           onCartClick={() => setIsCartOpen(true)}

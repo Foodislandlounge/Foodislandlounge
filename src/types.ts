@@ -17,7 +17,8 @@ export interface CartItem extends MenuItem {
 export interface Order {
   id?: string;
   customerName: string;
-  customerEmail: string;
+  customerPhone: string;
+  customerLocation: string;
   items: CartItem[];
   total: number;
   status: 'pending' | 'preparing' | 'completed' | 'cancelled';
@@ -27,7 +28,7 @@ export interface Order {
 export interface Reservation {
   id?: string;
   name: string;
-  email: string;
+  phone: string;
   date: string;
   time: string;
   guests: number;

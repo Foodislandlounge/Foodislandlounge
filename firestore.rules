@@ -48,6 +48,8 @@ service cloud.firestore {
     // Orders
     function isValidOrder(data) {
       return data.customerName is string && data.customerName.size() > 0 &&
+             data.customerPhone is string &&
+             data.customerLocation is string && data.customerLocation.size() > 0 &&
              data.total is number && data.total >= 0 &&
              data.status in ['pending', 'preparing', 'completed', 'cancelled'] &&
              data.items is list && data.items.size() > 0 &&
@@ -55,18 +57,16 @@ service cloud.firestore {
     }
 
     match /orders/{orderId} {
-      allow create: if true; // Customers can place orders
-      allow read: if isAdmin(null) || (isSignedIn() && request.auth.token.email == resource.data.customerEmail);
-      allow list: if true; // Workaround for restricted auth: allow all to list, but we rely on UI state
-      allow update: if isAdmin(request.resource.data) || (isSignedIn() && request.auth.token.email == resource.data.customerEmail && 
-                      request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']) &&
-                      request.resource.data.status == 'cancelled' && resource.data.status == 'pending');
+      allow create: if isValidOrder(request.resource.data);
+      allow read: if isAdmin(null);
+      allow list: if true; 
+      allow update: if isAdmin(request.resource.data);
     }
 
     // Reservations
     function isValidReservation(data) {
       return data.name is string && data.name.size() > 0 &&
-             data.email is string &&
+             data.phone is string &&
              data.date is string &&
              data.time is string &&
              data.guests is number && data.guests > 0 &&
