@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, onSnapshot, addDoc, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { db, auth } from '../../lib/firebase';
 import { MenuItem, Category } from '../../types';
 import { CATEGORIES } from '../../constants';
 import { Plus, Trash2, Edit2, Loader2, Image as ImageIcon } from 'lucide-react';
@@ -43,6 +43,13 @@ export default function MenuManager() {
       setFormData({ name: '', price: 0, category: 'Main Course', description: '', imageUrl: '', isAvailable: true });
     } catch (err) {
       console.error("Save failed:", err);
+      const errInfo = {
+        error: err instanceof Error ? err.message : String(err),
+        operationType: editingId ? 'update' : 'create',
+        path: editingId ? `menu/${editingId}` : 'menu',
+        auth: auth.currentUser ? { uid: auth.currentUser.uid, isAnonymous: auth.currentUser.isAnonymous } : null
+      };
+      throw new Error(JSON.stringify(errInfo));
     }
   };
 
@@ -61,7 +68,18 @@ export default function MenuManager() {
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to remove this item?")) {
-      await deleteDoc(doc(db, 'menu', id));
+      try {
+        await deleteDoc(doc(db, 'menu', id));
+      } catch (err) {
+        console.error("Delete failed:", err);
+        const errInfo = {
+          error: err instanceof Error ? err.message : String(err),
+          operationType: 'delete',
+          path: `menu/${id}`,
+          auth: auth.currentUser ? { uid: auth.currentUser.uid, isAnonymous: auth.currentUser.isAnonymous } : null
+        };
+        throw new Error(JSON.stringify(errInfo));
+      }
     }
   };
 

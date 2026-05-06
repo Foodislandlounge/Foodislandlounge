@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, onSnapshot, updateDoc, doc, orderBy } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { db, auth } from '../../lib/firebase';
 import { Order } from '../../types';
 import { ShoppingBag, User, Mail, Clock, CheckCircle2, Package, XCircle, Loader2 } from 'lucide-react';
 
@@ -15,12 +15,32 @@ export default function OrderManager() {
       snapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() } as Order));
       setOrders(data);
       setLoading(false);
+    }, (err) => {
+      console.error("Order snapshot failed:", err);
+      const errInfo = {
+        error: err.message,
+        operationType: 'list',
+        path: 'orders',
+        auth: auth.currentUser ? { uid: auth.currentUser.uid, isAnonymous: auth.currentUser.isAnonymous } : null
+      };
+      throw new Error(JSON.stringify(errInfo));
     });
     return () => unsubscribe();
   }, []);
 
   const handleUpdateStatus = async (id: string, status: Order['status']) => {
-    await updateDoc(doc(db, 'orders', id), { status });
+    try {
+      await updateDoc(doc(db, 'orders', id), { status });
+    } catch (err) {
+      console.error("Order update failed:", err);
+      const errInfo = {
+        error: err instanceof Error ? err.message : String(err),
+        operationType: 'update',
+        path: `orders/${id}`,
+        auth: auth.currentUser ? { uid: auth.currentUser.uid, isAnonymous: auth.currentUser.isAnonymous } : null
+      };
+      throw new Error(JSON.stringify(errInfo));
+    }
   };
 
   if (loading) return <div className="flex justify-center p-12"><Loader2 className="animate-spin text-zinc-600" /></div>;

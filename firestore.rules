@@ -12,10 +12,7 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isSignedIn() && (
-        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
-        request.auth.token.email == 'mbuamokako@gmail.com'
-      );
+      return isSignedIn();
     }
 
     function isValidId(id) {

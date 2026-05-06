@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { collection, query, onSnapshot, updateDoc, doc, deleteDoc, orderBy } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { db, auth } from '../../lib/firebase';
 import { Reservation } from '../../types';
 import { Mail, User, Users, Calendar as CalendarIcon, Clock, Check, X, Trash2, Loader2 } from 'lucide-react';
 
@@ -15,17 +15,48 @@ export default function ReservationManager() {
       snapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() } as Reservation));
       setReservations(data);
       setLoading(false);
+    }, (err) => {
+      console.error("Reservation snapshot failed:", err);
+      const errInfo = {
+        error: err.message,
+        operationType: 'list',
+        path: 'reservations',
+        auth: auth.currentUser ? { uid: auth.currentUser.uid, isAnonymous: auth.currentUser.isAnonymous } : null
+      };
+      throw new Error(JSON.stringify(errInfo));
     });
     return () => unsubscribe();
   }, []);
 
   const handleUpdateStatus = async (id: string, status: 'confirmed' | 'cancelled') => {
-    await updateDoc(doc(db, 'reservations', id), { status });
+    try {
+      await updateDoc(doc(db, 'reservations', id), { status });
+    } catch (err) {
+      console.error("Reservation update failed:", err);
+      const errInfo = {
+        error: err instanceof Error ? err.message : String(err),
+        operationType: 'update',
+        path: `reservations/${id}`,
+        auth: auth.currentUser ? { uid: auth.currentUser.uid, isAnonymous: auth.currentUser.isAnonymous } : null
+      };
+      throw new Error(JSON.stringify(errInfo));
+    }
   };
 
   const handleDelete = async (id: string) => {
     if (confirm("Delete this reservation record?")) {
-      await deleteDoc(doc(db, 'reservations', id));
+      try {
+        await deleteDoc(doc(db, 'reservations', id));
+      } catch (err) {
+        console.error("Reservation delete failed:", err);
+        const errInfo = {
+          error: err instanceof Error ? err.message : String(err),
+          operationType: 'delete',
+          path: `reservations/${id}`,
+          auth: auth.currentUser ? { uid: auth.currentUser.uid, isAnonymous: auth.currentUser.isAnonymous } : null
+        };
+        throw new Error(JSON.stringify(errInfo));
+      }
     }
   };
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, LogIn, Plus, Trash2, Edit, ChevronLeft, LayoutGrid, ClipboardList, Calendar, ShoppingBag, Key } from 'lucide-react';
+import { X, LogIn, Plus, Trash2, Edit, ChevronLeft, LayoutGrid, ClipboardList, Calendar, ShoppingBag, Key, Loader2 } from 'lucide-react';
+import { signInAnonymously, onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../../lib/firebase';
 import MenuManager from './MenuManager';
 import ReservationManager from './ReservationManager';
 import OrderManager from './OrderManager';
@@ -15,35 +17,56 @@ const ADMIN_PASSCODE = "654493005";
 export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passcode, setPasscode] = useState("");
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState<'menu' | 'reservations' | 'orders'>('menu');
 
   useEffect(() => {
-    // Check if previously authenticated in this session
-    const authStatus = sessionStorage.getItem('fil-admin-auth');
-    if (authStatus === 'true') {
-      setIsAuthenticated(true);
-    }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      const authStatus = sessionStorage.getItem('fil-admin-auth');
+      if (user && authStatus === 'true') {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setLoading(false);
+    });
+    return () => unsubscribe();
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (passcode === ADMIN_PASSCODE) {
-      setIsAuthenticated(true);
-      setError("");
-      sessionStorage.setItem('fil-admin-auth', 'true');
+      try {
+        await signInAnonymously(auth);
+        setIsAuthenticated(true);
+        setError("");
+        sessionStorage.setItem('fil-admin-auth', 'true');
+      } catch (err) {
+        console.error("Auth failed:", err);
+        setError("System authentication failed. Please try again.");
+      }
     } else {
       setError("Incorrect passcode. Access denied.");
       setPasscode("");
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut(auth);
     setIsAuthenticated(false);
     sessionStorage.removeItem('fil-admin-auth');
   };
 
   if (!isOpen) return null;
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md">
+        <Loader2 className="animate-spin text-amber-500" size={40} />
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
