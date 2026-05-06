@@ -13,7 +13,7 @@ export default function MenuManager() {
   const [formData, setFormData] = useState({
     name: '',
     price: 0,
-    category: 'Main Course' as Category,
+    category: 'Food' as Category,
     description: '',
     imageUrl: '',
     isAvailable: true
@@ -43,7 +43,7 @@ export default function MenuManager() {
       }
       setShowForm(false);
       setEditingId(null);
-      setFormData({ name: '', price: 0, category: 'Main Course', description: '', imageUrl: '', isAvailable: true });
+      setFormData({ name: '', price: 0, category: 'Food', description: '', imageUrl: '', isAvailable: true });
     } catch (err) {
       console.error("Save failed:", err);
       const errInfo = {

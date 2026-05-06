@@ -24,4 +24,4 @@ export const IMAGES = {
   ]
 };
 
-export const CATEGORIES = ["Appetizer", "Main Course", "Dessert", "Drink", "Special"] as const;
+export const CATEGORIES = ["Food", "Drinks"] as const;

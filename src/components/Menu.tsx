@@ -14,7 +14,6 @@ interface MenuProps {
 export default function Menu({ onAddToCart }: MenuProps) {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<Category | 'All'>('All');
 
   useEffect(() => {
     const q = query(collection(db, 'menu'));
@@ -33,9 +32,20 @@ export default function Menu({ onAddToCart }: MenuProps) {
     return () => unsubscribe();
   }, []);
 
-  const filteredItems = selectedCategory === 'All' 
-    ? items 
-    : items.filter(item => item.category === selectedCategory);
+  const categoriesData = [
+    {
+      id: 'Food' as Category,
+      title: 'Island Food',
+      description: 'Authentic flavors from the heart of the island.',
+      image: 'https://i.ibb.co/Z6FjN2ND/Full-Size-Render.jpg'
+    },
+    {
+      id: 'Drinks' as Category,
+      title: 'Island Drinks',
+      description: 'Refreshing tropical cocktails and house specials.',
+      image: 'https://i.ibb.co/v6TfBfS2/Full-Size-Render.jpg'
+    }
+  ];
 
   return (
     <section id="menu" className="py-24 bg-[#050505]">
@@ -56,25 +66,8 @@ export default function Menu({ onAddToCart }: MenuProps) {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-serif text-white tracking-tight"
           >
-            Culinary <span className="italic font-light text-amber-50">Masterpieces</span>
+            Our Culinary <span className="italic font-light text-amber-50">Offerings</span>
           </motion.h2>
-        </div>
-
-        {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {['All', ...CATEGORIES].map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category as any)}
-              className={`px-6 py-2 text-[11px] uppercase tracking-widest transition-all duration-300 border ${
-                selectedCategory === category 
-                ? 'bg-amber-600 border-amber-600 text-white' 
-                : 'border-white/10 text-gray-500 hover:border-white/30 hover:text-white'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
         </div>
 
         {loading ? (
@@ -83,22 +76,40 @@ export default function Menu({ onAddToCart }: MenuProps) {
             <p className="font-serif italic">Loading our finest selections...</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <AnimatePresence mode="popLayout">
-              {filteredItems.map((item) => (
-                <MenuCard 
-                  key={item.id} 
-                  item={item} 
-                  onAddToCart={onAddToCart} 
-                />
-              ))}
-            </AnimatePresence>
-          </div>
-        )}
+          <div className="space-y-32">
+            {categoriesData.map((cat, idx) => (
+              <div key={cat.id} className="space-y-12">
+                <div className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 bg-white/5 p-8 border border-white/5`}>
+                  <div className="w-full md:w-1/2 aspect-video overflow-hidden">
+                    <img 
+                      src={cat.image} 
+                      alt={cat.title}
+                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
+                    />
+                  </div>
+                  <div className="w-full md:w-1/2 text-center md:text-left space-y-4">
+                    <h3 className="text-3xl md:text-5xl font-serif text-white tracking-wide">{cat.title}</h3>
+                    <p className="text-zinc-500 font-light text-lg">{cat.description}</p>
+                    <div className="w-12 h-0.5 bg-amber-600 mx-auto md:mx-0"></div>
+                  </div>
+                </div>
 
-        {!loading && filteredItems.length === 0 && (
-          <div className="text-center py-20 text-zinc-600 font-serif lowercase italic">
-            Chef is currently preparing new inspiration... checked back soon.
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {items.filter(item => item.category === cat.id).map((item) => (
+                    <MenuCard 
+                      key={item.id} 
+                      item={item} 
+                      onAddToCart={onAddToCart} 
+                    />
+                  ))}
+                  {items.filter(item => item.category === cat.id).length === 0 && (
+                    <div className="col-span-full text-center py-12 text-zinc-600 font-serif italic border border-white/5">
+                      New {cat.id.toLowerCase()} items coming soon...
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

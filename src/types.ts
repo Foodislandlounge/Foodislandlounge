@@ -1,4 +1,4 @@
-export type Category = 'Appetizer' | 'Main Course' | 'Dessert' | 'Drink' | 'Special';
+export type Category = 'Food' | 'Drinks';
 
 export interface MenuItem {
   id?: string;
