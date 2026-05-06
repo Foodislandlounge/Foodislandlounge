@@ -45,11 +45,10 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-earth-clay/5 gap-6">
           <p className="text-earth-ink/30 text-[9px] uppercase tracking-[0.2em] font-black">
-            © {new Date().getFullYear()} Food Island Lounge. Crafted with soul.
+            © {new Date().getFullYear()} Food Island Lounge. Build by Harry, Tyra, Emmanuel, Walters and Leonard
           </p>
           <div className="flex gap-10 text-[9px] uppercase tracking-[0.2em] font-black text-earth-ink/30">
-            <a href="#" className="hover:text-earth-clay transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-earth-clay transition-colors">Terms of Service</a>
+            <span>CITEC Software Level 1</span>
           </div>
         </div>
       </div>
